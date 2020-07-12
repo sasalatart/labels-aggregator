@@ -1,6 +1,9 @@
 {
   "extends": ["airbnb-base", "plugin:prettier/recommended"],
-  "plugins": ["prettier"],
+  "plugins": ["googleappsscript", "prettier"],
+  "env": {
+    "googleappsscript/googleappsscript": true
+  },
   "rules": {
     "prettier/prettier": "error"
   }
