@@ -1,0 +1,9 @@
+{
+  "name": "labels-aggregator",
+  "version": "1.0.0",
+  "description": "GAS that translates customer data into aggregated labels for my father's business",
+  "main": "src/index.js",
+  "repository": "git@github.com:sasalatart/labels-aggregator.git",
+  "author": "Sebastián Salata R-T <sa.salatart@gmail.com>",
+  "license": "MIT"
+}
