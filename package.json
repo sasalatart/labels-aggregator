@@ -7,12 +7,15 @@
   "author": "Sebastián Salata R-T <sa.salatart@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "deploy": "clasp push --force",
     "lint": "eslint src/"
   },
   "devDependencies": {
+    "@types/google-apps-script": "^1.0.14",
     "eslint": "^7.4.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-googleappsscript": "^1.0.3",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-prettier": "^3.1.4",
     "husky": "^4.2.5",
