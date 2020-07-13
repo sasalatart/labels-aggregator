@@ -1,0 +1,71 @@
+version: 2.1
+
+aliases:
+  - &node-cache-key node-v1-{{ checksum "package.json" }}
+  - &node-docker-image circleci/node:10.15.3
+  - &working-directory ~/tmp
+
+executors:
+  node_executor:
+    working_directory: *working-directory
+    docker:
+      - image: *node-docker-image
+
+commands:
+  checkout_and_restore_cache:
+    description: Checkout code and restore node cache
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - *node-cache-key
+
+  clasp_setup:
+    description: Install clasp and set its credentials & parameters
+    steps:
+      - run: sudo npm i -g @google/clasp
+      - run: clasp setting scriptId $SCRIPT_ID
+      - run: cd $HOME && echo $CLASP_CREDENTIALS > .clasprc.json
+
+jobs:
+  bootstrap:
+    description: Install node modules
+    executor: node_executor
+    steps:
+      - checkout_and_restore_cache
+      - run: yarn install
+      - save_cache:
+          key: *node-cache-key
+          paths:
+            - node_modules
+
+  lint:
+    description: Run the linter
+    executor: node_executor
+    steps:
+      - checkout_and_restore_cache
+      - run: yarn lint
+
+  deploy:
+    description: Push latest code to script
+    executor: node_executor
+    steps:
+      - checkout_and_restore_cache
+      - clasp_setup
+      - deploy:
+          command: yarn deploy
+
+workflows:
+  version: 2
+  commit:
+    jobs:
+      - bootstrap
+      - lint:
+          requires:
+            - bootstrap
+      - deploy:
+          requires:
+            - lint
+          filters:
+            branches:
+              only: master
