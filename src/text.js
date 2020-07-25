@@ -16,6 +16,10 @@ function normalizePrice(price) {
 }
 
 function compareText(textA, textB) {
+  if ((textA && !textB && textB !== "") || (textB && !textA && textA !== "")) {
+    return false;
+  }
+
   return (
     normalizeText(textA).toUpperCase() === normalizeText(textB).toUpperCase()
   );
