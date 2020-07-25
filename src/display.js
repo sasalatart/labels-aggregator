@@ -31,16 +31,26 @@ function groupData(matrix) {
         products: [],
       };
     }
+
+    const { products } = result[phoneNumber];
+    const code = normalizeCode(row[CODE_INDEX]);
     const quantity = +row[QUANTITY_INDEX];
     const price = normalizePrice(row[PRICE_INDEX]);
-    result[phoneNumber].products.push({
-      code: normalizeCode(row[CODE_INDEX]),
-      productName: row[PRODUCT_NAME_INDEX],
-      format: row[FORMAT_INDEX],
-      quantity,
-      price,
-      value: quantity * price,
-    });
+    const addedProduct = products.find((product) => product.code === code);
+
+    if (addedProduct) {
+      addedProduct.quantity += quantity;
+      addedProduct.value += quantity * price;
+    } else {
+      products.push({
+        code: normalizeCode(row[CODE_INDEX]),
+        productName: row[PRODUCT_NAME_INDEX],
+        format: row[FORMAT_INDEX],
+        quantity,
+        price,
+        value: quantity * price,
+      });
+    }
   });
 
   return result;
