@@ -1,0 +1,22 @@
+/* eslint-disable no-unused-vars */
+
+function normalizeText(text) {
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+function normalizeCode(code) {
+  return normalizeText(code).toUpperCase();
+}
+
+function normalizePrice(price) {
+  return +String(price).replace(/\D/g, "");
+}
+
+function compareText(textA, textB) {
+  return (
+    normalizeText(textA).toUpperCase() === normalizeText(textB).toUpperCase()
+  );
+}

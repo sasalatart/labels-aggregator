@@ -10,7 +10,11 @@
   "globals": {
     "assertHeaders": "readonly",
     "assertInputSheet": "readonly",
+    "compareText": "readonly",
+    "display": "readonly",
     "HeadersNotFoundError": "readonly",
-    "InputSheetNotFoundError": "readonly"
+    "InputSheetNotFoundError": "readonly",
+    "normalizeCode": "readonly",
+    "normalizePrice": "readonly"
   }
 }

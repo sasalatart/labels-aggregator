@@ -3,23 +3,20 @@ const EXPECTED_HEADERS = [
   "NOMBRE",
   "APELLIDO",
   "NÚMERO",
+  "VENDEDOR",
   "DIRECCIÓN",
   "COMUNA",
   "CÓDIGO PRODUCTO",
   "PRODUCTO",
+  "FORMATO",
   "CANTIDAD",
+  "PRECIO",
   "VALOR",
   "DESPACHO",
+  "PAGO ( SÍ / NO )",
 ];
 
-const HEADER_COLS = "ABCDEFGHIJK";
-
-function normalize(text) {
-  return text
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
-}
+const HEADER_COLS = "ABCDEFGHIJKLMNO";
 
 // eslint-disable-next-line no-unused-vars
 function assertInputSheet(spreadsheet) {
@@ -33,7 +30,7 @@ function assertInputSheet(spreadsheet) {
 function assertHeaders(actualHeaders) {
   const notFoundHeaders = [];
   EXPECTED_HEADERS.forEach((expectedHeader, index) => {
-    if (normalize(expectedHeader) !== normalize(actualHeaders[index])) {
+    if (!compareText(expectedHeader, actualHeaders[index])) {
       notFoundHeaders.push([expectedHeader, HEADER_COLS[index]]);
     }
   });

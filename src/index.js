@@ -10,9 +10,11 @@ function generate() {
   const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
   const sheet = assertInputSheet(spreadsheet);
 
-  const displayValues = sheet.getDataRange().getDisplayValues();
-  const [actualHeaders] = displayValues;
+  const displayValues = sheet.getDataRange().getValues();
+  const [actualHeaders, ...data] = displayValues;
   assertHeaders(actualHeaders);
+
+  display(sheet, data);
 
   Browser.msgBox("OK", "Generado", Browser.Buttons.OK);
 }
