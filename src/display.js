@@ -6,14 +6,11 @@ const PHONE_INDEX = 3;
 const ADDRESS_L1_INDEX = 5;
 const ADDRESS_L2_INDEX = 6;
 const CODE_INDEX = 7;
-const PRODUCT_NAME_INDEX = 8;
-const FORMAT_INDEX = 9;
 const QUANTITY_INDEX = 10;
-const PRICE_INDEX = 11;
 const DISPATCH_VALUE_INDEX = 13;
 const PAID_INDEX = 14;
 
-function groupData(matrix) {
+function groupData(matrix, lookups) {
   const result = {};
 
   matrix.forEach((row) => {
@@ -32,10 +29,14 @@ function groupData(matrix) {
       };
     }
 
-    const { products } = result[phoneNumber];
     const code = normalizeCode(row[CODE_INDEX]);
+    if (!code) throw new ProductWithNoCodeError();
+    if (!lookups[code]) throw new LookupCodeNotFoundError(code);
+
+    const { products } = result[phoneNumber];
+
+    const { name, price, format } = lookups[code];
     const quantity = +row[QUANTITY_INDEX];
-    const price = normalizePrice(row[PRICE_INDEX]);
     const addedProduct = products.find((product) => product.code === code);
 
     if (addedProduct) {
@@ -43,9 +44,9 @@ function groupData(matrix) {
       addedProduct.value += quantity * price;
     } else {
       products.push({
-        code: normalizeCode(row[CODE_INDEX]),
-        productName: row[PRODUCT_NAME_INDEX],
-        format: row[FORMAT_INDEX],
+        code,
+        productName: name,
+        format,
         quantity,
         price,
         value: quantity * price,
@@ -144,10 +145,11 @@ function displayCustomer(sheet, { meta, products }) {
 }
 
 // eslint-disable-next-line no-unused-vars
-function display(sheet, data) {
+function display(sheet, data, lookups) {
+  const groupedData = groupData(data, lookups);
+
   sheet.getDataRange().clearFormat().clearContent();
 
-  const groupedData = groupData(data);
   Object.values(groupedData).forEach((customerData) =>
     displayCustomer(sheet, customerData)
   );

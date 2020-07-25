@@ -8,13 +8,18 @@
     "prettier/prettier": "error"
   },
   "globals": {
-    "assertHeaders": "readonly",
     "assertInputSheet": "readonly",
+    "assertInputSheetHeaders": "readonly",
+    "assertLookupsSheet": "readonly",
+    "assertLookupsSheetHeaders": "readonly",
     "compareText": "readonly",
     "display": "readonly",
     "HeadersNotFoundError": "readonly",
-    "InputSheetNotFoundError": "readonly",
+    "indexLookups": "readonly",
+    "LookupCodeNotFoundError": "readonly",
     "normalizeCode": "readonly",
-    "normalizePrice": "readonly"
+    "normalizePrice": "readonly",
+    "ProductWithNoCodeError": "readonly",
+    "SheetNotFoundError": "readonly"
   }
 }
