@@ -48,7 +48,7 @@ const assertInputSheetHeaders = assertSheetHeadersFactory("in", [
   "PRECIO",
   "VALOR",
   "DESPACHO",
-  "PAGO ( SÍ / NO )",
+  "PAGO (SÍ/NO)",
 ]);
 
 // eslint-disable-next-line no-unused-vars
