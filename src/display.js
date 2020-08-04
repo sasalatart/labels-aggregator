@@ -1,3 +1,5 @@
+const OUTPUT_SHEET_NAME = "out";
+
 const NUM_COLS = 6;
 
 const FIRST_NAME_INDEX = 1;
@@ -145,17 +147,23 @@ function displayCustomer(sheet, { meta, products }) {
 }
 
 // eslint-disable-next-line no-unused-vars
-function display(sheet, data, lookups) {
+function display(data, lookups) {
+  const spreadsheet = SpreadsheetApp.getActive();
   const groupedData = groupData(data, lookups);
 
-  sheet.getDataRange().clearFormat().clearContent();
+  let outputSheet = spreadsheet.getSheetByName(OUTPUT_SHEET_NAME);
+  if (outputSheet) {
+    spreadsheet.deleteSheet(outputSheet);
+  }
+  outputSheet = spreadsheet.insertSheet(OUTPUT_SHEET_NAME);
+  outputSheet.activate();
 
   Object.values(groupedData).forEach((customerData) =>
-    displayCustomer(sheet, customerData)
+    displayCustomer(outputSheet, customerData)
   );
 
-  sheet.getRange("D:D").setHorizontalAlignment("center");
-  sheet
+  outputSheet.getRange("D:D").setHorizontalAlignment("center");
+  outputSheet
     .getRange("E:F")
     .setHorizontalAlignment("right")
     .setNumberFormat("$#,###0");

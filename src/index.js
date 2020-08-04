@@ -8,14 +8,18 @@ function onOpen() {
 
 function generate() {
   const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-  const sheet = assertInputSheet(spreadsheet);
+  const inputSheet = assertInputSheet(spreadsheet);
 
-  const [inputHeaders, ...input] = sheet.getDataRange().getValues();
+  const [inputHeaders, ...input] = inputSheet.getDataRange().getValues();
   assertInputSheetHeaders(inputHeaders);
 
-  display(sheet, input, indexLookups(spreadsheet));
+  display(input, indexLookups(spreadsheet));
 
-  Browser.msgBox("OK", "Generado", Browser.Buttons.OK);
+  Browser.msgBox(
+    "Finalizado",
+    "Se convirtió todo el contenido de la hoja <in> en etiquetas dentro de la hoja <out>.",
+    Browser.Buttons.OK
+  );
 }
 
 // eslint-disable-next-line no-unused-vars
