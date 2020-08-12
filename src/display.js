@@ -17,6 +17,8 @@ function groupData(matrix, lookups) {
 
   matrix.forEach((row) => {
     const phoneNumber = row[PHONE_INDEX];
+    if (!phoneNumber) return;
+
     if (!result[phoneNumber]) {
       result[phoneNumber] = {
         meta: {
